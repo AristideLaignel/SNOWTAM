@@ -1,5 +1,6 @@
 package com.example.snowtam;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -65,6 +66,8 @@ public class MainActivity extends AppCompatActivity {
         catch (JSONException | IOException e) {
             e.printStackTrace();
         }
+        Intent intent = new Intent(MainActivity.this, MapsActivity.class);
+        startActivity(intent);
     }
 
 //    public String loadJSONFromAsset() {
