@@ -2,6 +2,7 @@ package com.example.snowtam;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -10,6 +11,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import android.content.Context;
 import android.widget.TextView;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -24,6 +32,9 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<String> all = new ArrayList<>();
     ListView mListView;
     TextView text;
+    String jsonText;
+    String errort;
+    ArrayList<String> Snowtam = new ArrayList<>();
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,14 +42,41 @@ public class MainActivity extends AppCompatActivity {
         mListView = findViewById(R.id.listView);
         text = findViewById(R.id.text);
 
+
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String url = "https://applications.icao.int/dataservices/api/notams-realtime-list?api_key=e1d9c5c0-2a83-11eb-83a7-2bc643ee461e&format=json&criticality=1&locations=ENGM";
+        StringRequest stringRequest;
+        stringRequest = new StringRequest(Request.Method.GET, url, response -> {
+            // Display the first 500 characters of the response string.
+            jsonText = response;
+            Snowtam.add(jsonText);
+
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                errort = error.toString();
+            }
+        });
+
+
+
+// Add the request to the RequestQueue.
+        queue.add(stringRequest);
+        //text.setText(jsonText);
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            public void run() {
+                // yourMethod();
+                //text.setText(Snowtam.get(0));
+
         try {
             // get JSONObject from JSON file
-            String jsonText = readText(MainActivity.this, R.raw.realtime);
+            //jsonText = readText(MainActivity.this, R.raw.realtime);
             //JSONObject obj = new JSONObject(jsonText);
             //text.setText(obj.);
             // fetch JSONArray named users
             //JSONArray AllArray = obj.getJSONArray("");
-            JSONArray AllArray = new JSONArray(jsonText);
+            JSONArray AllArray = new JSONArray(Snowtam.get(0));
             //text.setText(AllArray.getJSONObject(0).getString("id"));
             // implement for loop for getting users list data
             int i = 0;
@@ -63,12 +101,14 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-        catch (JSONException | IOException e) {
+        catch (JSONException e) {
             e.printStackTrace();
         }
-        Intent intent = new Intent(MainActivity.this, MapsActivity.class);
-        startActivity(intent);
-    }
+            }
+        }, 7000);
+////        Intent intent = new Intent(MainActivity.this, MapsActivity.class);
+////        startActivity(intent);
+//    }
 
 //    public String loadJSONFromAsset() {
 //        String json = null;
@@ -85,16 +125,17 @@ public class MainActivity extends AppCompatActivity {
 //        }
 //        return json;
 //    }
-        private static String readText (Context context,int resId) throws IOException {
-            InputStream is = context.getResources().openRawResource(resId);
-            BufferedReader br = new BufferedReader(new InputStreamReader(is));
-            StringBuilder sb = new StringBuilder();
-            String s;
-            while ((s = br.readLine()) != null) {
-                sb.append(s);
-                sb.append("\n");
-            }
-            return sb.toString();
-        }
+//        private static String readText (Context context,int resId) throws IOException {
+//            InputStream is = context.getResources().openRawResource(resId);
+//            BufferedReader br = new BufferedReader(new InputStreamReader(is));
+//            StringBuilder sb = new StringBuilder();
+//            String s;
+//            while ((s = br.readLine()) != null) {
+//                sb.append(s);
+//                sb.append("\n");
+//            }
+//            return sb.toString();
+//        }
 
+    }
 }
