@@ -35,8 +35,6 @@ public class Activity_test extends AppCompatActivity {
         TextView text = findViewById(R.id.text);
         Intent intent = getIntent();
         final String[] Oaci = {intent.getStringExtra("oaci")};
-        //text.setText(Oaci[0]);
-        final String[] Oaciresponse = new String[1];
         Response.Listener<DataOaci[]> rep = new Response.Listener<DataOaci[]>() {
             @Override
             public void onResponse(DataOaci[] response){
@@ -50,7 +48,7 @@ public class Activity_test extends AppCompatActivity {
                 Log.e(TAG, "searchAlbum onErrorResponse: " + error.getMessage());
             }
         };
-        Service.getOACI(rep,error,Activity_test.this);
+        Service.getOACI(rep,error,Activity_test.this,Oaci[0]);
 //        Handler handler = new Handler();
 //        handler.postDelayed(new Runnable() {
 //            public void run() {

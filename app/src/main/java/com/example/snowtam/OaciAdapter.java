@@ -22,4 +22,11 @@ public class OaciAdapter {
         int indexfin= singleOaci.getAll().indexOf("CREATED");
         return singleOaci.getAll().substring(indexdeb, indexfin);
     }
+
+    public String getAirport(){
+        String Oaci = this.getSnotam();
+        int indexdeb = Oaci.indexOf("B)");
+        int indexfin= Oaci.indexOf("C)");
+        return Oaci.substring(indexdeb,indexfin);
+    }
 }

@@ -28,15 +28,16 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 
 import androidx.appcompat.app.AppCompatActivity;
+import java.net.URLEncoder;
 
 public class Service {
 
     private static String jsonText;
     private static final String TAG = "Service";
 
-    public static void getOACI (Response.Listener<DataOaci[]> response, Response.ErrorListener errorListener, Context context){
+    public static void getOACI (Response.Listener<DataOaci[]> response, Response.ErrorListener errorListener, Context context, String Oaci){
         RequestQueue queue = Volley.newRequestQueue(context);
-        String url = "https://applications.icao.int/dataservices/api/notams-realtime-list?api_key=b1944770-3576-11eb-853d-396efe154b9d&format=json&criticality=1&locations=ENGM";
+        String url = "https://applications.icao.int/dataservices/api/notams-realtime-list?api_key=b1944770-3576-11eb-853d-396efe154b9d&format=json&criticality=1&locations="+ URLEncoder.encode(Oaci);
         GsonRequest<DataOaci[]> gsonRequest= new GsonRequest(url, DataOaci[].class,null,response,errorListener);
         queue.add(gsonRequest);
     }
