@@ -3,7 +3,10 @@ package com.example.snowtam;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 
 import org.json.JSONArray;
@@ -30,7 +33,6 @@ import androidx.appcompat.app.AppCompatActivity;
 public class MainActivity extends AppCompatActivity {
     ArrayList<String> id = new ArrayList<>();
     ArrayList<String> all = new ArrayList<>();
-    ListView mListView;
     TextView text;
     String jsonText;
     String errort;
@@ -38,104 +40,18 @@ public class MainActivity extends AppCompatActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        mListView = findViewById(R.id.listView);
-        text = findViewById(R.id.text);
+        setContentView(R.layout.home_page);
+        EditText oaci = findViewById(R.id.oaci1);
+        Button bouton = findViewById(R.id.submit);
 
-
-        RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "https://applications.icao.int/dataservices/api/notams-realtime-list?api_key=e1d9c5c0-2a83-11eb-83a7-2bc643ee461e&format=json&criticality=1&locations=ENGM";
-        StringRequest stringRequest;
-        stringRequest = new StringRequest(Request.Method.GET, url, response -> {
-            // Display the first 500 characters of the response string.
-            jsonText = response;
-            Snowtam.add(jsonText);
-
-        }, new Response.ErrorListener() {
+        bouton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onErrorResponse(VolleyError error) {
-                errort = error.toString();
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, Activity_test.class);
+                intent.putExtra("oaci",String.valueOf(oaci.getText()));
+                startActivity(intent);
             }
         });
-
-
-
-// Add the request to the RequestQueue.
-        queue.add(stringRequest);
-        //text.setText(jsonText);
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            public void run() {
-                // yourMethod();
-                //text.setText(Snowtam.get(0));
-
-        try {
-            // get JSONObject from JSON file
-            //jsonText = readText(MainActivity.this, R.raw.realtime);
-            //JSONObject obj = new JSONObject(jsonText);
-            //text.setText(obj.);
-            // fetch JSONArray named users
-            //JSONArray AllArray = obj.getJSONArray("");
-            JSONArray AllArray = new JSONArray(Snowtam.get(0));
-            //text.setText(AllArray.getJSONObject(0).getString("id"));
-            // implement for loop for getting users list data
-            int i = 0;
-
-            while (!AllArray.getJSONObject(i).getString("id").substring(0,2).equals("SW")){
-                i++;
-                // create a JSONObject for fetching single user data
-                //JSONObject tout = AllArray.getJSONObject(i);
-                // fetch email and name and store it in arraylist
-                //text.setText(tout.getString("all"));
-                //id.add(tout.getString("id"));
-                //all.add(tout.getString("all"));
-                // create a object for getting contact data from JSONObject
-            }
-            int indexdeb = AllArray.getJSONObject(i).getString("all").indexOf("(SNOWTAM");
-            int indexfin= AllArray.getJSONObject(i).getString("all").indexOf("CREATED");
-            text.setText(AllArray.getJSONObject(i).getString("all").substring(indexdeb,indexfin));
-            ArrayAdapter<String> adapter = new ArrayAdapter<>(MainActivity.this,
-                    android.R.layout.simple_list_item_1, id);
-            mListView.setAdapter(adapter);
-
-        }
-
-
-        catch (JSONException e) {
-            e.printStackTrace();
-        }
-            }
-        }, 7000);
-////        Intent intent = new Intent(MainActivity.this, MapsActivity.class);
-////        startActivity(intent);
-//    }
-
-//    public String loadJSONFromAsset() {
-//        String json = null;
-//        try {
-//            InputStream is = getAssets().open("Realtime_NOTAMS.json");
-//            int size = is.available();
-//            byte[] buffer = new byte[size];
-//            is.read(buffer);
-//            is.close();
-//            json = new String(buffer, "UTF-8");
-//        } catch (IOException ex) {
-//            ex.printStackTrace();
-//            return null;
-//        }
-//        return json;
-//    }
-//        private static String readText (Context context,int resId) throws IOException {
-//            InputStream is = context.getResources().openRawResource(resId);
-//            BufferedReader br = new BufferedReader(new InputStreamReader(is));
-//            StringBuilder sb = new StringBuilder();
-//            String s;
-//            while ((s = br.readLine()) != null) {
-//                sb.append(s);
-//                sb.append("\n");
-//            }
-//            return sb.toString();
-//        }
 
     }
 }
