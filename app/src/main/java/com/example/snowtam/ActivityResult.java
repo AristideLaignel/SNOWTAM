@@ -62,13 +62,13 @@ public class ActivityResult extends AppCompatActivity implements OnMapReadyCallb
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
         // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(48.0073796, 0.1967599);
+        LatLng sydney = new LatLng(49.4544618, 2.1113351);
         mMap.addMarker(new MarkerOptions()
                 .position(sydney)
                 .title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney,new Float(14.42)));
+        mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
 
     }
 
