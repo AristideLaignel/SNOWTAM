@@ -21,6 +21,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.snowtam.data.LigneOaci;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -43,7 +44,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.home_page);
         EditText oaci = findViewById(R.id.oaci1);
         Button bouton = findViewById(R.id.submit);
-
         bouton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

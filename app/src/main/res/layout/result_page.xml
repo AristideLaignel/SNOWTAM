@@ -18,18 +18,6 @@
         app:layout_constraintTop_toBottomOf="@+id/include"
         app:layout_constraintVertical_bias="0.107" />
 
-    <TextView
-        android:id="@+id/info"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TextView"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.471"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.324" />
-
     <include
         android:id="@+id/include"
         layout="@layout/main_structure"
@@ -41,17 +29,17 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.001" />
 
-    <TextView
-        android:id="@+id/titre"
-        android:layout_width="66dp"
-        android:layout_height="21dp"
-        android:text="TextView"
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/oacirecyclerview"
+        android:layout_width="357dp"
+        android:layout_height="383dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.089"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.325" />
+        app:layout_constraintTop_toBottomOf="@+id/airport"
+        app:layout_constraintVertical_bias="0.132"
+        android:scrollbars="vertical"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

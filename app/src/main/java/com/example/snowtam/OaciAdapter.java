@@ -1,6 +1,16 @@
 package com.example.snowtam;
 
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+
 import com.example.snowtam.data.DataOaci;
+
+import org.w3c.dom.Text;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class OaciAdapter {
 
@@ -29,4 +39,6 @@ public class OaciAdapter {
         int indexfin= Oaci.indexOf("C)");
         return Oaci.substring(indexdeb,indexfin);
     }
+
+
 }
