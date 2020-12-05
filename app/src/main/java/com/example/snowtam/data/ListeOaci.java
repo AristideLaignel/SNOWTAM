@@ -35,7 +35,6 @@ public class ListeOaci extends RecyclerView.Adapter<ListeOaci.OaciViewHolder> {
         }
         ligneOaci = new LigneOaci(oaci.substring(indexdeb-1,indexdeb), oaci.substring(indexdeb+1,indexfin-1));
         listeOaci.add(ligneOaci);
-        Log.e("Liste Oaci", listeOaci.get(0).getLettre());
     }
 
     @NonNull
@@ -51,7 +50,6 @@ public class ListeOaci extends RecyclerView.Adapter<ListeOaci.OaciViewHolder> {
         LigneOaci ligneOaciICI = listeOaci.get(position);
         holder.titre.setText(ligneOaciICI.getLettre());
         holder.info.setText(ligneOaciICI.getLigne());
-        Log.e("ICIIIIIIIIIII", listeOaci.get(position).getLettre());
     }
 
     @Override
