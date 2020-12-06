@@ -75,3 +75,8 @@ dependencies {
     // On rajoute ici, notre instruction
     implementation 'com.google.code.gson:gson:2.7'
 }
+
+dependencies {
+    implementation 'androidx.appcompat:appcompat:+'
+    implementation 'androidx.constraintlayout:constraintlayout:+'
+}

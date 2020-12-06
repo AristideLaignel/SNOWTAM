@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
         bouton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, ActivityResult.class);
+                Intent intent = new Intent(MainActivity.this, ScreenSlidePagerActivity.class);
                 intent.putExtra("oaci",String.valueOf(oaci.getText()));
                 startActivity(intent);
             }
