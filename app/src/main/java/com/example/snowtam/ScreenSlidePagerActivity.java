@@ -8,11 +8,15 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.widget.TextView;
+
+import java.util.ArrayList;
 
 public class ScreenSlidePagerActivity extends FragmentActivity {
 
-    private static final int NUM_PAGES = 5;
+    private static int NUM_PAGES;
 
     /**
      * The pager widget, which handles animation and allows swiping horizontally to access previous
@@ -24,12 +28,14 @@ public class ScreenSlidePagerActivity extends FragmentActivity {
      * The pager adapter, which provides the pages to the view pager widget.
      */
     private PagerAdapter pagerAdapter;
-
+    private ArrayList<String> oaciList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.resultpageslide);
-
+        Intent intent = getIntent();
+        oaciList = intent.getStringArrayListExtra("oaci");
+        NUM_PAGES = oaciList.size();
         // Instantiate a ViewPager and a PagerAdapter.
         mPager = (ViewPager) findViewById(R.id.pager);
         pagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
@@ -59,7 +65,10 @@ public class ScreenSlidePagerActivity extends FragmentActivity {
 
         @Override
         public Fragment getItem(int position) {
-            return new ScreenSlidePageFragment();
+//            ScreenSlidePageFragment frag = new ScreenSlidePageFragment();
+//            TextView text = frag.getActivity().findViewById(R.id.textView2);
+//            text.setText(Integer.toString(position));
+            return ScreenSlidePageFragment.newInstance(oaciList.get(position),position);
         }
 
         @Override
@@ -67,4 +76,5 @@ public class ScreenSlidePagerActivity extends FragmentActivity {
             return NUM_PAGES;
         }
     }
+
 }

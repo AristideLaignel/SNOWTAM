@@ -15,6 +15,7 @@ import com.android.volley.VolleyError;
 import com.example.snowtam.Model.Service;
 import com.example.snowtam.data.DataOaci;
 import com.example.snowtam.data.ListeOaci;
+import com.example.snowtam.data.reponsePosition;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -22,17 +23,23 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import org.openqa.selenium.By;
+import org.openqa.selenium.Capabilities;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+
 public class ActivityResult extends AppCompatActivity implements OnMapReadyCallback {
 
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
     private GoogleMap mMap;
+    private LatLng position = new LatLng(25.3,26.8);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.result_page);
         Intent intent = getIntent();
-        final String[] Oaci = {intent.getStringExtra("oaci")};
+        final String[] Oaci = {intent.getStringExtra("oaci1")};
         recyclerView = findViewById(R.id.oacirecyclerview);
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
@@ -52,30 +59,49 @@ public class ActivityResult extends AppCompatActivity implements OnMapReadyCallb
                 Log.e("TAG", "Error Activity result: " + error.getMessage());
             }
         };
-        Service.getOACI(rep,error,ActivityResult.this,Oaci[0]);
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
-        //this.changelocation(48.26, 50.262);
+        //Service.getOACI(rep,error,ActivityResult.this,Oaci[0]);
+        airport.setText("ici");
+        Response.Listener<reponsePosition> repo = new Response.Listener<reponsePosition>() {
+            @Override
+            public void onResponse(reponsePosition responseposition){
+                //position = new LatLng(responseposition.getLatitude(),responseposition.getLongitude());
+                airport.setText("Lati :"+responseposition.getLatitude().toString()+"  \n Longi : "+responseposition.getLongitude());
+            }
+        };
+        final Response.ErrorListener error2 = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("TAG", "Error Activity result: " + error.getMessage());
+            }
+        };
+
+        try {
+            Thread.sleep(2000);
+            Service.getPosition(repo,error2,this,Oaci[0]);
+            airport.setText("la");
+            SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                    .findFragmentById(R.id.map);
+           // mapFragment.getMapAsync(this);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(49.4544618, 2.1113351);
         mMap.addMarker(new MarkerOptions()
-                .position(sydney)
-                .title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney,new Float(14.42)));
+                .position(position));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(position,new Float(14.42)));
         mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
 
     }
 
-    public void changelocation(double lat, double longi){
-
+    public void changelocation(LatLng position){
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
-                new LatLng(lat,longi),50));
+                position,new Float(14.42)));
     }
 }
 
