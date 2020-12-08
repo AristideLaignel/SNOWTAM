@@ -3,6 +3,7 @@ package com.example.snowtam;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import io.appium.java_client.android.AndroidDriver;
 
 import android.content.Context;
 import android.content.Intent;
@@ -22,11 +23,17 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import org.openqa.selenium.By;
+import org.openqa.selenium.Capabilities;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+
 public class ActivityResult extends AppCompatActivity implements OnMapReadyCallback {
 
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
     private GoogleMap mMap;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,7 +45,8 @@ public class ActivityResult extends AppCompatActivity implements OnMapReadyCallb
         recyclerView.setLayoutManager(layoutManager);
         TextView airport = findViewById(R.id.airport);
         Response.Listener<DataOaci[]> rep = new Response.Listener<DataOaci[]>() {
-        @Override
+
+            @Override
         public void onResponse(DataOaci[] response){
             OaciAdapter mAdapter = new OaciAdapter(response);
             ListeOaci listeOaci = new ListeOaci(mAdapter.getSnotam());
@@ -57,6 +65,16 @@ public class ActivityResult extends AppCompatActivity implements OnMapReadyCallb
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
         //this.changelocation(48.26, 50.262);
+    }
+
+    private LatLng getlat(String query) throws InterruptedException{
+        WebDriver driver=new AndroidDriver((Capabilities) this);
+        driver.get("https://www.world-airport-codes.com/");
+        Thread.sleep(10000);
+        WebElement searchBox=driver.findElement(By.name("s"));
+        searchBox.sendKeys(query);
+        searchBox.submit();
+        String answer=driver.findElements(By.)
     }
 
     @Override

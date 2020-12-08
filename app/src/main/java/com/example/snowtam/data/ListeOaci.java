@@ -22,6 +22,10 @@ public class ListeOaci extends RecyclerView.Adapter<ListeOaci.OaciViewHolder> {
         this.constructOaci(oaci);
     }
 
+    public ListeOaci() {
+        listeOaci = new ArrayList<LigneOaci>();
+    }
+
     private void constructOaci(String oaci) {
         int i = 0;
         int indexdeb = oaci.indexOf(")",i);
@@ -64,6 +68,26 @@ public class ListeOaci extends RecyclerView.Adapter<ListeOaci.OaciViewHolder> {
             super(itemView);
             titre = itemView.findViewById(R.id.label);
             info = itemView.findViewById(R.id.info);
+        }
+    }
+
+    public ListeOaci decode(ListeOaci l){
+        ListeOaci listeDecode=new ListeOaci();
+        for(int i=0;i<l.getItemCount();i++){
+            LigneOaci ligne=l.listeOaci.get(i);
+            switch(ligne.getLettre()){
+                case "A":
+
+                    break;
+
+                case "B":
+                    break;
+
+                case "C":
+                    if(Integer.parseInt(ligne.getLigne())<37){
+                        listeDecode
+                    }
+            }
         }
     }
 }
