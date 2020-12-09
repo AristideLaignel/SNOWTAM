@@ -67,7 +67,7 @@ public class ActivityResult extends AppCompatActivity implements OnMapReadyCallb
         //this.changelocation(48.26, 50.262);
     }
 
-    private LatLng getlat(String query) throws InterruptedException{
+    /*private LatLng getlat(String query) throws InterruptedException{
         WebDriver driver=new AndroidDriver((Capabilities) this);
         driver.get("https://www.world-airport-codes.com/");
         Thread.sleep(10000);
@@ -75,7 +75,7 @@ public class ActivityResult extends AppCompatActivity implements OnMapReadyCallb
         searchBox.sendKeys(query);
         searchBox.submit();
         String answer=driver.findElements(By.)
-    }
+    }*/
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
