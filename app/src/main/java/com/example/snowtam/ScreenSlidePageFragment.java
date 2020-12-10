@@ -15,23 +15,32 @@ import com.example.snowtam.data.ListeOaci;
 import com.example.snowtam.data.reponsePosition;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+
+
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class ScreenSlidePageFragment extends Fragment implements OnMapReadyCallback {
+public class ScreenSlidePageFragment extends Fragment{
     private ViewGroup rootView;
     private String title;
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
     private int count;
     private GoogleMap mMap;
-    private LatLng position;
+    private LatLng position = new LatLng(52.26,-69.12);
+    MapView mMapView;
+    private GoogleMap googleMap;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -42,6 +51,9 @@ public class ScreenSlidePageFragment extends Fragment implements OnMapReadyCallb
         recyclerView = rootView.findViewById(R.id.oacirecyclerview);
         layoutManager = new LinearLayoutManager(rootView.getContext());
         recyclerView.setLayoutManager(layoutManager);
+        mMapView = (MapView) rootView.findViewById(R.id.map);
+        mMapView.onCreate(savedInstanceState);
+        mMapView.onResume();
         Response.Listener<DataOaci[]> rep = new Response.Listener<DataOaci[]>() {
             @Override
             public void onResponse(DataOaci[] response){
@@ -49,7 +61,6 @@ public class ScreenSlidePageFragment extends Fragment implements OnMapReadyCallb
                 ListeOaci listeOaci = new ListeOaci(mAdapter.getSnotam());
                 recyclerView.setAdapter(listeOaci);
             }
-
         };
         final Response.ErrorListener error = new Response.ErrorListener() {
             @Override
@@ -64,12 +75,15 @@ public class ScreenSlidePageFragment extends Fragment implements OnMapReadyCallb
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        Response.Listener<reponsePosition> repo = new Response.Listener<reponsePosition>() {
+        Response.Listener<reponsePosition[]> repo = new Response.Listener<reponsePosition[]>() {
             @Override
-            public void onResponse(reponsePosition responseposition){
-                position = new LatLng(responseposition.getLatitude(),responseposition.getLongitude());
-                //SupportMapFragment mapFragment = (SupportMapFragment) rootView;
-                //mapFragment.getMapAsync(ScreenSlidePageFragment.this::onMapReady);
+            public void onResponse(reponsePosition[] responseposition){
+                position = new LatLng(responseposition[0].getLatitude(),responseposition[0].getLongitude());
+                tvLabel.setText(responseposition[0].getAirportName());
+                tvLabel.setTextSize(30);
+//                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(position,new Float(14.42)));
+//                mMap.addMarker(new MarkerOptions().position(position));
+//                mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
             }
         };
         final Response.ErrorListener error2 = new Response.ErrorListener() {
@@ -78,9 +92,26 @@ public class ScreenSlidePageFragment extends Fragment implements OnMapReadyCallb
                 Log.e("TAG", "Error Activity result: " + error.getMessage());
             }
         };
-        Service.getPosition(repo,error,rootView.getContext(),title);
+        Service.getPosition(repo,error2,rootView.getContext(),title);
 
-
+        try {
+            Thread.sleep(3000);
+            MapsInitializer.initialize(getActivity().getApplicationContext());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        mMapView.getMapAsync(new OnMapReadyCallback() {
+            @Override
+            public void onMapReady(GoogleMap mMap) {
+                googleMap = mMap;
+                //googleMap.setMyLocationEnabled(false);
+                // For dropping a marker at a point on the Map
+                googleMap.addMarker(new MarkerOptions()
+                        .position(position));
+                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(position,new Float(14.42)));
+                googleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+            }
+        });
         return rootView;
     }
 
@@ -99,14 +130,29 @@ public class ScreenSlidePageFragment extends Fragment implements OnMapReadyCallb
         title = getArguments().getString("title");
         count = getArguments().getInt("count");
     }
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
-        // Add a marker in Sydney and move the camera
-        mMap.addMarker(new MarkerOptions()
-                .position(position));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(position,new Float(14.42)));
-        mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        mMapView.onResume();
     }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mMapView.onPause();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mMapView.onDestroy();
+    }
+
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        mMapView.onLowMemory();
+    }
+
 }

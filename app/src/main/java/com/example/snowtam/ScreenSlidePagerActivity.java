@@ -65,9 +65,6 @@ public class ScreenSlidePagerActivity extends FragmentActivity {
 
         @Override
         public Fragment getItem(int position) {
-//            ScreenSlidePageFragment frag = new ScreenSlidePageFragment();
-//            TextView text = frag.getActivity().findViewById(R.id.textView2);
-//            text.setText(Integer.toString(position));
             return ScreenSlidePageFragment.newInstance(oaciList.get(position),position);
         }
 

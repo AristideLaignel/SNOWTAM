@@ -33,7 +33,7 @@ public class ActivityResult extends AppCompatActivity implements OnMapReadyCallb
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
     private GoogleMap mMap;
-    private LatLng position = new LatLng(25.3,26.8);
+    private LatLng position = new LatLng(50.23,86.24);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,12 +60,11 @@ public class ActivityResult extends AppCompatActivity implements OnMapReadyCallb
             }
         };
         //Service.getOACI(rep,error,ActivityResult.this,Oaci[0]);
-        airport.setText("ici");
-        Response.Listener<reponsePosition> repo = new Response.Listener<reponsePosition>() {
+        Response.Listener<reponsePosition[]> repo = new Response.Listener<reponsePosition[]>() {
             @Override
-            public void onResponse(reponsePosition responseposition){
-                //position = new LatLng(responseposition.getLatitude(),responseposition.getLongitude());
-                airport.setText("Lati :"+responseposition.getLatitude().toString()+"  \n Longi : "+responseposition.getLongitude());
+            public void onResponse(reponsePosition[] responseposition){
+                position = new LatLng(responseposition[0].getLatitude(),responseposition[0].getLongitude());
+                airport.setText("Lati :"+responseposition[0].getLatitude().toString()+"  \n Longi : "+responseposition[0].getLongitude());
             }
         };
         final Response.ErrorListener error2 = new Response.ErrorListener() {
@@ -74,14 +73,13 @@ public class ActivityResult extends AppCompatActivity implements OnMapReadyCallb
                 Log.e("TAG", "Error Activity result: " + error.getMessage());
             }
         };
-
+        Service.getPosition(repo,error2,this,Oaci[0]);
         try {
             Thread.sleep(2000);
-            Service.getPosition(repo,error2,this,Oaci[0]);
-            airport.setText("la");
+
             SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                     .findFragmentById(R.id.map);
-           // mapFragment.getMapAsync(this);
+            mapFragment.getMapAsync(this);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
