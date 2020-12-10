@@ -28,27 +28,43 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-
 import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
-    ArrayList<String> id = new ArrayList<>();
-    ArrayList<String> all = new ArrayList<>();
-    TextView text;
-    String jsonText;
-    String errort;
-    ArrayList<String> Snowtam = new ArrayList<>();
+    ArrayList<String> oaciList = new ArrayList<>();
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_page);
-        EditText oaci = findViewById(R.id.oaci1);
+        EditText oaci1 = findViewById(R.id.oaci1);
+        EditText oaci2 = findViewById(R.id.oaci2);
+        EditText oaci3 = findViewById(R.id.oaci3);
+        EditText oaci4 = findViewById(R.id.oaci4);
+        EditText oaci5 = findViewById(R.id.oaci5);
+
         Button bouton = findViewById(R.id.submit);
         bouton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                oaciList = new ArrayList<>();
+                if(!oaci1.getText().toString().equals("")){
+                    oaciList.add(oaci1.getText().toString());
+                }
+                if(!oaci2.getText().toString().equals("")){
+                    oaciList.add(oaci2.getText().toString());
+                }
+                if(!oaci3.getText().toString().equals("")){
+                    oaciList.add(oaci3.getText().toString());
+                }
+                if(!oaci4.getText().toString().equals("")){
+                    oaciList.add(oaci4.getText().toString());
+                }
+                if(!oaci5.getText().toString().equals("")){
+                    oaciList.add(oaci5.getText().toString());
+                }
                 Intent intent = new Intent(MainActivity.this, ScreenSlidePagerActivity.class);
-                intent.putExtra("oaci",String.valueOf(oaci.getText()));
+                intent.putStringArrayListExtra("oaci",oaciList);
+                //intent.putExtra("oaci1",oaci1.getText().toString());
                 startActivity(intent);
             }
         });

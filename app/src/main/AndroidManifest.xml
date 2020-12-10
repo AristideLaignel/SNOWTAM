@@ -15,13 +15,7 @@
             android:name=".Activity_test"
             android:label="@string/title_activity_test"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".Avtivity_test"
-            android:label="@string/title_activity_avtivity_test"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".ui.login.Login"
-            android:label="@string/title_activity_login" />
+
         <activity android:name=".MapsActivity" />
         <activity android:name=".ActivityResult" />
         <activity android:name=".MainActivity">
