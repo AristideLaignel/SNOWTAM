@@ -24,6 +24,10 @@ import io.appium.java_client.android.AndroidDriver;
 public class ListeOaci extends RecyclerView.Adapter<ListeOaci.OaciViewHolder> {
     private ArrayList<LigneOaci> listeOaci;
     private LigneOaci ligneOaci;
+    private LigneOaci ligne;
+    private ListeOaci listeDecode;
+    private LigneOaci nouveligne;
+    private int piste;
     public ListeOaci(String oaci) {
         listeOaci = new ArrayList<LigneOaci>();
         this.constructOaci(oaci);
@@ -32,13 +36,16 @@ public class ListeOaci extends RecyclerView.Adapter<ListeOaci.OaciViewHolder> {
     public ListeOaci() {
         listeOaci = new ArrayList<LigneOaci>();
     }
+     public void addligneListOaci(LigneOaci ligne){
+        listeOaci.add(ligne);
+    }
 
     private void constructOaci(String oaci) {
         int i = 0;
         int indexdeb = oaci.indexOf(")",i);
         int indexfin = oaci.indexOf(")",indexdeb+1);
         while(!oaci.substring(indexfin-1,indexfin+1).equals(".)")) {
-            ligneOaci = new LigneOaci(oaci.substring(indexdeb-1,indexdeb), oaci.substring(indexdeb+1,indexfin-1));
+            ligneOaci = new LigneOaci(oaci.substring(indexdeb-1,indexdeb), oaci.substring(indexdeb+2,indexfin-1));
             i = indexdeb;
             indexdeb = indexfin;
             indexfin = oaci.indexOf(")",indexdeb+1);
