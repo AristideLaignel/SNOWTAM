@@ -78,18 +78,18 @@ public class ListeOaci extends RecyclerView.Adapter<ListeOaci.OaciViewHolder> {
         }
     }
 
-    public ListeOaci decode(ListeOaci l) throws InterruptedException {
-        ListeOaci listeDecode=new ListeOaci();
-        for(int i=0;i<l.getItemCount();i++){
-            LigneOaci ligne=l.listeOaci.get(i);
+       public ListeOaci decode() throws ParseException {
+        listeDecode = new ListeOaci();
+        for(int i=0;i<listeOaci.size();i++){
+            ligne = listeOaci.get(i);
+
             switch(ligne.getLettre()){
-                case "A":
-                    String code=ligne.getLigne();
-                    nomAirport(code);
-                    break;
+//                case "A":
+//                    String code=ligne.getLigne();
+//                   // nomAirport(code);
+//                    break;
 
                 case "B":
-                    listeDecode.ligneOaci.setLettre("B");
                     char[] tabDate=ligne.getLigne().toCharArray();
                     String date="";
                     String jour=tabDate[2]+tabDate[3]+" ";
@@ -134,30 +134,33 @@ public class ListeOaci extends RecyclerView.Adapter<ListeOaci.OaciViewHolder> {
                     }
                     String heure=tabDate[4]+tabDate[5]+"";
                     String minutes=tabDate[6]+tabDate[7]+"";
-                    date=jour+" "+mois+" "+heure+"h"+minutes;
-                    listeDecode.ligneOaci.setLigne(date);
+                    date =jour+" "+mois+" "+heure+"h"+minutes;
+                    Date date1 = new SimpleDateFormat("MMddHHmm").parse(ligne.getLigne());
+                    nouveligne = new LigneOaci("B", date1.toString());
+                    listeDecode.addligneListOaci(nouveligne);
                     break;
 
                 case "C":
-                    listeDecode.ligneOaci.setLettre("C");
-                    int piste=Integer.parseInt(ligne.getLigne());
+                    piste = Integer.parseInt(ligne.getLigne().substring(0,2));
                     if(piste<37) {
-                        listeDecode.ligneOaci.setLigne("RUNWAY" + piste + "L");
+                        nouveligne = new LigneOaci("C", "RUNWAY" + String.valueOf(piste) + "L");
+                        listeDecode.addligneListOaci(nouveligne);
                     }
                     else if(piste>51 && piste<87){
-                        listeDecode.ligneOaci.setLigne("RUNWAY"+piste+"R");
+                        nouveligne = new LigneOaci("C", "RUNWAY"+ String.valueOf(piste)+"R");
+                        listeDecode.addligneListOaci(nouveligne);
                         }
                     else if(piste==88){
-                        listeDecode.ligneOaci.setLigne("ALL RUNWAYS");
+                        nouveligne = new LigneOaci("C", "ALL RUNWAYS");
+                        listeDecode.addligneListOaci(nouveligne);
                     }
                     break;
 
                 case "F":
-                    listeDecode.ligneOaci.setLettre("F");
-                    String[] tabEtat=ligne.getLigne().split("/");
+                    String[] tabEtat = ligne.getLigne().split("/");
                     String etat="";
                     for (int j=0;j<tabEtat.length;j++){
-                        switch(tabEtat[i]){
+                        switch(tabEtat[j]){
                             case "0":
                                 if(j==0){
                                     etat=etat+"Threshold: "+"CLEAR AND DRY ";
@@ -278,7 +281,10 @@ public class ListeOaci extends RecyclerView.Adapter<ListeOaci.OaciViewHolder> {
                                 break;
                         }
                     }
-                    listeDecode.ligneOaci.setLigne(etat);
+                    nouveligne = new LigneOaci("F", etat);
+                    listeDecode.addligneListOaci(nouveligne);
+                    break;
+                default:
                     break;
             }
         }
