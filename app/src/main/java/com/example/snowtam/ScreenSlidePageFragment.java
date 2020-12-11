@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.android.volley.Response;
@@ -42,6 +43,9 @@ public class ScreenSlidePageFragment extends Fragment{
     private LatLng position = new LatLng(52.26,-69.12);
     MapView mMapView;
     private GoogleMap googleMap;
+    private ListeOaci listeOacidecode = null;
+    private ListeOaci listeOaci;
+    private String nameairport;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -59,11 +63,10 @@ public class ScreenSlidePageFragment extends Fragment{
             @Override
             public void onResponse(DataOaci[] response){
                 OaciAdapter mAdapter = new OaciAdapter(response);
-                ListeOaci listeOaci = new ListeOaci(mAdapter.getSnotam());
-                ListeOaci listeOacidecode = null;
+                listeOaci = new ListeOaci(mAdapter.getSnotam());
                 try {
-                    listeOacidecode = listeOaci.decode();
-                    recyclerView.setAdapter(listeOacidecode);
+                    listeOacidecode = listeOaci.decode(nameairport);
+                    recyclerView.setAdapter(listeOaci);
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
@@ -89,6 +92,7 @@ public class ScreenSlidePageFragment extends Fragment{
                 position = new LatLng(responseposition[0].getLatitude(),responseposition[0].getLongitude());
                 tvLabel.setText(responseposition[0].getAirportName());
                 tvLabel.setTextSize(30);
+                nameairport = responseposition[0].getAirportName();
             }
         };
         final Response.ErrorListener error2 = new Response.ErrorListener() {
@@ -115,6 +119,21 @@ public class ScreenSlidePageFragment extends Fragment{
                         .position(position));
                 googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(position,new Float(14.42)));
                 googleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+            }
+        });
+        CheckBox chk = (CheckBox) rootView.findViewById(R.id.checkbox);
+        chk.toggle();
+        chk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean checked = ((CheckBox) v).isChecked();
+                // Check which checkbox was clicked
+                if (checked){
+                    recyclerView.setAdapter(listeOacidecode);
+                }
+                else{
+                    recyclerView.setAdapter(listeOaci);
+                }
             }
         });
         return rootView;

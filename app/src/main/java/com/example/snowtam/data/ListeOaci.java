@@ -80,16 +80,16 @@ public class ListeOaci extends RecyclerView.Adapter<ListeOaci.OaciViewHolder> {
         }
     }
 
-    public ListeOaci decode() throws ParseException {
+    public ListeOaci decode(String airport) throws ParseException {
         listeDecode = new ListeOaci();
         for(int i=0;i<listeOaci.size();i++){
             ligne = listeOaci.get(i);
 
             switch(ligne.getLettre()){
-//                case "A":
-//                    String code=ligne.getLigne();
-//                   // nomAirport(code);
-//                    break;
+                case "A":
+                    nouveligne = new LigneOaci("A", airport);
+                    listeDecode.addligneListOaci(nouveligne);
+                    break;
 
                 case "B":
                     char[] tabDate=ligne.getLigne().toCharArray();

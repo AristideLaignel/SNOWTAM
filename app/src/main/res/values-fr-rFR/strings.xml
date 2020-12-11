@@ -6,4 +6,7 @@
     <string name="title_activity_avtivity_test">Avtivity_test</string>
     <string name="title_activity_test">Avtivity_test</string>
     <string name="textview">TextView</string>
+    <string name="decoder">Decoder</string>
+    <string name="settings">Paramètre</string>
+    <string name="apply">Appliquer</string>
 </resources>
