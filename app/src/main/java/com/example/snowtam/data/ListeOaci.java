@@ -158,6 +158,16 @@ public class ListeOaci extends RecyclerView.Adapter<ListeOaci.OaciViewHolder> {
                     }
                     break;
 
+                case "D":
+                    String longueur = ligne.getLigne();
+                    nouveligne = new LigneOaci("D","CLEARED RUNWAY LENGTH "+longueur+"M");
+                    listeDecode.addligneListOaci(nouveligne);
+                    break;
+//                case "E":
+//                    char[] stringlist = ligne.getLigne().toCharArray();
+//                    if(stringlist[1].toString.equals()){
+//
+//                    }
                 case "F":
                     String[] tabEtat = ligne.getLigne().split("/");
                     String etat="";

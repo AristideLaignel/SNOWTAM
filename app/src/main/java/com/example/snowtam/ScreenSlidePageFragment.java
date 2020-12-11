@@ -64,13 +64,13 @@ public class ScreenSlidePageFragment extends Fragment{
             public void onResponse(DataOaci[] response){
                 OaciAdapter mAdapter = new OaciAdapter(response);
                 listeOaci = new ListeOaci(mAdapter.getSnotam());
+                listeOaci = new ListeOaci("@string/snowtam");
                 try {
                     listeOacidecode = listeOaci.decode(nameairport);
                     recyclerView.setAdapter(listeOaci);
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-
             }
         };
         final Response.ErrorListener error = new Response.ErrorListener() {
@@ -136,6 +136,17 @@ public class ScreenSlidePageFragment extends Fragment{
                 }
             }
         });
+        // Code qui permet de tester l'application en dur
+//        listeOaci = new ListeOaci(getString(R.string.snowtam));
+//        try {
+//            listeOacidecode = listeOaci.decode(getString(R.string.airport));
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
+//        position = new LatLng(60.63881666666666,6.5015);
+//        recyclerView.setAdapter(listeOaci);
+//        tvLabel.setText(getString(R.string.airport));
+//        tvLabel.setTextSize(30);
         return rootView;
     }
 
@@ -178,5 +189,7 @@ public class ScreenSlidePageFragment extends Fragment{
         super.onLowMemory();
         mMapView.onLowMemory();
     }
+
+
 
 }

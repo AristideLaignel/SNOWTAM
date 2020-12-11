@@ -8,4 +8,6 @@
     <string name="decoder">Decode</string>
     <string name="settings">Settings</string>
     <string name="apply">Apply</string>
+    <string name="snowtam" translatable="false">SNOWTAM 0148\nA) ENBR\nB) 11190854 C) 17\nF) 2/2/2 G) XX/XX/XX H) 5/5/5\nN) ALL REPORTED TWYS/5\nT) CONTAMINATION/100/100/100/PERCENT.\nSLIPPERY PORTIONS ON TAXIWAYS. SLIPPERY PORTIONS\nON APRONS.)\n</string>
+    <string name="airport" translatable="false">Bomoen</string>
 </resources>
