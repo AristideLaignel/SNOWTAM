@@ -27,14 +27,14 @@ public class Service {
 
     public static void getOACI (Response.Listener<DataOaci[]> response, Response.ErrorListener errorListener, Context context, String Oaci){
         RequestQueue queue = Volley.newRequestQueue(context);
-        String url = "https://applications.icao.int/dataservices/api/notams-realtime-list?api_key=e12c8850-3af6-11eb-b507-f53a00891a33&format=json&criticality=1&locations="+ URLEncoder.encode(Oaci);
+        String url = "https://applications.icao.int/dataservices/api/notams-realtime-list?api_key=b7691860-3b07-11eb-b188-370111453e09&format=json&criticality=1&locations="+ URLEncoder.encode(Oaci);
         GsonRequest<DataOaci[]> gsonRequest= new GsonRequest(url, DataOaci[].class,null,response,errorListener);
         queue.add(gsonRequest);
     }
 
     public static void getPosition (Response.Listener<reponsePosition[]> response, Response.ErrorListener errorListener, Context context, String Oaci){
         RequestQueue queue = Volley.newRequestQueue(context);
-        String url = "https://applications.icao.int/dataservices/api/indicators-list?api_key=e12c8850-3af6-11eb-b507-f53a00891a33&state=&airports="+ URLEncoder.encode(Oaci)+"&format=json";
+        String url = "https://applications.icao.int/dataservices/api/indicators-list?api_key=b7691860-3b07-11eb-b188-370111453e09&state=&airports="+ URLEncoder.encode(Oaci)+"&format=json";
         GsonRequest<reponsePosition[]> gsonRequest= new GsonRequest(url, reponsePosition[].class,null,response,errorListener);
         queue.add(gsonRequest);
     }

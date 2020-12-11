@@ -95,4 +95,7 @@ dependencies {
     implementation "org.seleniumhq.selenium:selenium-java:3.141.0"
 }
 
-
+dependencies {
+    implementation 'androidx.appcompat:appcompat:+'
+    implementation 'androidx.constraintlayout:constraintlayout:+'
+}

@@ -24,6 +24,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 
+import java.text.ParseException;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -59,7 +60,14 @@ public class ScreenSlidePageFragment extends Fragment{
             public void onResponse(DataOaci[] response){
                 OaciAdapter mAdapter = new OaciAdapter(response);
                 ListeOaci listeOaci = new ListeOaci(mAdapter.getSnotam());
-                recyclerView.setAdapter(listeOaci);
+                ListeOaci listeOacidecode = null;
+                try {
+                    listeOacidecode = listeOaci.decode();
+                    recyclerView.setAdapter(listeOacidecode);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
             }
         };
         final Response.ErrorListener error = new Response.ErrorListener() {
@@ -81,9 +89,6 @@ public class ScreenSlidePageFragment extends Fragment{
                 position = new LatLng(responseposition[0].getLatitude(),responseposition[0].getLongitude());
                 tvLabel.setText(responseposition[0].getAirportName());
                 tvLabel.setTextSize(30);
-//                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(position,new Float(14.42)));
-//                mMap.addMarker(new MarkerOptions().position(position));
-//                mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
             }
         };
         final Response.ErrorListener error2 = new Response.ErrorListener() {

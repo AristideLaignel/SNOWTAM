@@ -15,7 +15,7 @@
         android:theme="?attr/actionBarTheme"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
@@ -37,15 +37,15 @@
         app:layout_constraintVertical_bias="0.355" />
 
     <ImageButton
-        android:id="@+id/imageButton2"
-        android:layout_width="103dp"
-        android:layout_height="92dp"
+        android:id="@+id/button"
+        android:layout_width="82dp"
+        android:layout_height="80dp"
         android:background="#8EE1FC"
         app:layout_constraintBottom_toBottomOf="@+id/toolbar"
-        app:layout_constraintEnd_toStartOf="@+id/textView"
-        app:layout_constraintStart_toStartOf="@+id/toolbar"
+        app:layout_constraintEnd_toEndOf="@+id/toolbar"
+        app:layout_constraintStart_toEndOf="@+id/textView"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@android:color/darker_gray"
-        tools:srcCompat="@drawable/webp_net_resizeimage__1_" />
+        app:srcCompat="@android:drawable/ic_menu_preferences"
+        tools:srcCompat="@drawable/param__3_" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
